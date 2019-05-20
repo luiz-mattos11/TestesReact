@@ -5,7 +5,7 @@ export default class Main extends React.Component {
 	render() {
 		return (
 			<View style={styles.container}>
-				<Button title="Prosseguir para o formulário"/>
+				<Button title="Prosseguir para o formulário?"/>
 				
 			</View>
 		);
