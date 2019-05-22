@@ -1,6 +1,7 @@
 import React from 'react'
 import styles from "../styles"
 import {View, Text, TextInput, TouchableOpacity} from 'react-native'
+import {doPost} from '../services/api'
 
 class Form extends React.Component {
 	constructor(props) {
@@ -36,30 +37,21 @@ class Form extends React.Component {
 		return v
 	}
 
+	callback = (response) => {
+		this.props.navigation.navigate('Data', response)
+	}
+
 	submitClicked = async () => {
 		if(this.verifyData()){	
 			this.setState({
 				textState: "Loading..."
 			})
 
-			fetch('https://my-json-server.typicode.com/Thalesdc/API/Users', {
-				method: 'POST',
-				headers: {
-					Accept: 'application/json',
-					'Content-Type': 'application/json',
-				},
-				body: JSON.stringify({
-					firstname: this.state.first,
-					lastname: this.state.last,
-					age: this.state.age,
-				}),
-			})
-			.then(response => response.json())
-			.then((responseJson)=> {
-				this.props.navigation.navigate('Data', responseJson);
-				console.log(responseJson)
-			})
-			.catch(error=>console.log(error)) //to catch the errors if any
+			doPost('Users', JSON.stringify({
+				firstname: this.state.first,
+				lastname: this.state.last,
+				age: this.state.age,
+			}), this.callback)
 		}
 	}
 

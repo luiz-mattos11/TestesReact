@@ -1,6 +1,7 @@
 import React from 'react'
 import { Text, View, TouchableOpacity, FlatList } from 'react-native'
 import styles from '../styles'
+import {getUsers} from '../services/api'
 
 class Users extends React.Component {
 	constructor(props) {
@@ -11,16 +12,15 @@ class Users extends React.Component {
 		};
 	}
 
-	componentDidMount(){
-		fetch("https://my-json-server.typicode.com/Thalesdc/API/Users")
-		.then(response => response.json())
-		.then((responseJson)=> {
-			this.setState({
-				loading: false,
-				dataSource: responseJson
-			})
+	callback = (response) => {
+		this.setState({
+			loading: false,
+			dataSource: response
 		})
-		.catch(error=>console.log(error)) //to catch the errors if any
+	}
+
+	componentDidMount(){
+		getUsers("Users", this.callback)
 	}
 
 	
